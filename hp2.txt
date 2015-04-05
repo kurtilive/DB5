@@ -1,0 +1,14 @@
+SET TERM ^ ;
+create or alter procedure proc_two (AG int, D1 date, D2 date)
+returns(SUMCUR float)
+as
+begin
+for select sum(DEALCASH) from AGENCY,AGENT,DEAL
+where ID_DEALAGENTSALER=ID_AGENT and AGENTAGENCY=ID_AGENCY and ID_AGENCY = :AG and DEALDATE between :D1 and :D2 group by ID_AGENCY
+into :SUMCUR
+do
+suspend;
+end
+^
+
+SET TERM ; ^

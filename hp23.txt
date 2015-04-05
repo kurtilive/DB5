@@ -1,0 +1,18 @@
+SET TERM ^ ;
+create or alter procedure proc23 (AG int, D1 date, D2 date, DISC float)
+as
+declare variable DTMP1 date;
+declare variable DTMP2 date;
+declare variable SC float;
+declare variable STMP float;
+
+begin
+DTMP1=:D1-365;
+DTMP2=:D2-365;
+execute procedure proc_two(:AG,:D1,:D2) RETURNING_VALUES (:SC);
+execute procedure proc_two(:AG,:DTMP1,:DTMP2) RETURNING_VALUES (:STMP);
+if (:SC-:STMP<0) then update AGENCY set PERSENT = PERSENT+:DISC WHERE ID_AGENCY = :AG;
+end
+^
+
+SET TERM ; ^

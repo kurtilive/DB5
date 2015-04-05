@@ -1,0 +1,16 @@
+SET TERM ^ ;
+create or alter procedure proc_one
+returns (ROOM int, SUMDEAL bigint, COUNTDEAL bigint, AVG_M2 float)
+as
+begin
+for select rooms,sum(DEALCASH), COUNT(*), avg(DEALCASH)/avg(S) from FLATS,DEAL
+where ID_KV = ID_DEALFLAT group by rooms
+into :ROOM, :SUMDEAL, :COUNTDEAL, :AVG_M2
+do
+suspend;
+end
+^
+
+SET TERM ; ^
+
+
